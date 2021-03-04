@@ -6,10 +6,13 @@
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
     </p>
+    <clickCounter></clickCounter>
   </div>
 </template>
 
 <script>
+
+
 export default {
   name: 'HelloWorld',
   props: {
