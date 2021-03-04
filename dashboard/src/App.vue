@@ -1,21 +1,29 @@
 <template>
   <div id="app">
     <HelloWorld msg="Dashboard for Paperchain" />
-    <AppButton>press me</AppButton>
-    <AppButton>like me</AppButton>
-    <AppButton>click me</AppButton>
+    <AppButton @click="log">
+      <Icon />
+      add to favorites
+    </AppButton>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import AppButton from './components/AppButton.vue'
+import Icon from './components/Icon.vue'
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    AppButton
+    AppButton,
+    Icon
+  },
+  methods: {
+    log() {
+      console.log("works");
+    }
   }
 }
 </script>
