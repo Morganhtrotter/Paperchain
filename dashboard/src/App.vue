@@ -1,17 +1,21 @@
 <template>
-  <AppLayout>
-    <template #header>Slots are awesome</template>
-    <template #default>
-      <HelloWorld msg="Dashboard for Paperchain" />
-      <AppButton @click="log">
-        <Icon />
-        add to favorites
-      </AppButton>
-    </template>
-  </AppLayout>
+  <div>
+    <AppLayout>
+      <template #header>Slots are awesome</template>
+      <template #default>
+        <HelloWorld msg="Dashboard for Paperchain" />
+        <AppButton @click="log">
+          <Icon />
+          add to favorites
+        </AppButton>
+      </template>
+    </AppLayout>
+    <AppUserList />
+  </div>
 </template>
 
 <script>
+import AppUserList from './components/AppUserList.vue';
 import AppLayout from './components/AppLayout.vue';
 import HelloWorld from './components/HelloWorld.vue';
 import AppButton from './components/AppButton.vue';
@@ -23,7 +27,8 @@ export default {
     HelloWorld,
     AppButton,
     Icon,
-    AppLayout
+    AppLayout,
+    AppUserList
   },
   methods: {
     log() {
