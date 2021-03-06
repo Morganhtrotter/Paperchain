@@ -1,21 +1,32 @@
 <template>
   <section>
     <slot name="title">Users</slot>
-    <ul class="userlist" v-if="state === 'loaded'">
-      <li v-for="item in data.results" :key="item.email">
-        <div>
-          <img
-            width="48"
-            height="48"
-            :src="item.picture.large"
-            :alt="item.name.first + ' ' + item.name.last"
-          />
-          <div>
-            <div>{{ item.name.first }}</div>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <slot 
+      name="userlist"
+      :count="data.results.length" 
+      :list="data.results" 
+      v-if="state === 'loaded'"
+    >
+      <ul class="userlist">
+        <li v-for="item in data.results" :key="item.email">
+          <slot name="listitem" :user="item">
+            <div>
+              <img
+                width="48"
+                height="48"
+                :src="item.picture.large"
+                :alt="item.name.first + ' ' + item.name.last"
+              />
+              <div>
+                <div>{{ item.name.first }}</div>
+                <slot></slot>
+                {{ secondrow(item) }}
+              </div>
+            </div>
+          </slot>
+        </li>
+      </ul>
+    </slot>
     <slot v-if="state === 'loading'" name="loading">
       loading...
     </slot>
@@ -33,6 +44,12 @@ const states = {
   failed: "failed"
 };
 export default {
+  props: {
+    secondrow: {
+      type: Function,
+      default: () => {}
+    }
+  },
   data() {
     return {
       state: "idle",
@@ -50,7 +67,7 @@ export default {
       this.error = undefined;
       this.data = undefined;
       try {
-        const response = await fetch("https://randomusers.me/api/?results=5");
+        const response = await fetch("https://randomuser.me/api/?results=5");
         const json = await response.json();
         this.state = "loaded";
         this.data = json;

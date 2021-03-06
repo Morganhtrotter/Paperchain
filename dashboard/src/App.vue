@@ -10,7 +10,15 @@
         </AppButton>
       </template>
     </AppLayout>
-    <AppUserList />
+    <AppUserList>
+      <template #userlist="{list, count}">
+        <pre>
+          {{ count }}
+          {{ list }}
+          }
+        </pre>
+      </template>
+    </AppUserList>
   </div>
 </template>
 
