@@ -15,7 +15,6 @@
         <pre>
           {{ count }}
           {{ list }}
-          }
         </pre>
       </template>
     </AppUserList>

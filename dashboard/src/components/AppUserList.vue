@@ -1,82 +1,52 @@
 <template>
   <section>
-    <slot name="title">Users</slot>
-    <slot 
-      name="userlist"
-      :count="data.results.length" 
-      :list="data.results" 
-      v-if="state === 'loaded'"
-    >
+    <slot name="title">Data</slot>
       <ul class="userlist">
-        <li v-for="item in data.results" :key="item.email">
+        <li>
+          <div>
+            Date, Source, Territory, Type, Code, Song, Artist, Label, Count, Revenue, Rate, Currency
+          </div>
+        </li>
+        <li v-for="item in items" :key="item.isrc">
           <slot name="listitem" :user="item">
             <div>
-              <img
-                width="48"
-                height="48"
-                :src="item.picture.large"
-                :alt="item.name.first + ' ' + item.name.last"
-              />
               <div>
-                <div>{{ item.name.first }}</div>
-                <slot></slot>
-                {{ secondrow(item) }}
+                <div>{{ item.metric_date }}, {{ item.source }}</div>
               </div>
             </div>
           </slot>
         </li>
       </ul>
-    </slot>
-    <slot v-if="state === 'loading'" name="loading">
-      loading...
-    </slot>
-    <slot v-if="state === 'failed'" name="error">
-      Oops, something went wrong
-    </slot>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in items" :key="item.isrc">
+            <th scope="row">1</th>
+            <td>{{ item.metric_date}}</td>
+            <td>{{ item.source }}</td>
+            <td>{{ item.territory }}</td>
+          </tr>
+        </tbody>
+      </table>
   </section>
 </template>
 
 <script>
-const states = {
-  idle: "idle",
-  loading: "loading",
-  loaded: "loaded",
-  failed: "failed"
-};
 export default {
-  props: {
-    secondrow: {
-      type: Function,
-      default: () => {}
-    }
-  },
   data() {
     return {
-      state: "idle",
-      data: undefined,
-      error: undefined,
-      states
-    };
-  },
-  mounted() {
-    this.load();
-  },
-  methods: {
-    async load() {
-      this.state = "loading";
-      this.error = undefined;
-      this.data = undefined;
-      try {
-        const response = await fetch("https://randomuser.me/api/?results=5");
-        const json = await response.json();
-        this.state = "loaded";
-        this.data = json;
-        return response;
-      } catch (error) {
-        this.state = "failed";
-        this.error = error;
-        return error;
-      }
+      items: [
+        {metric_date: "2020-02-01", source: "APPLE MUSIC", territory: "AE", metric_type: "PROMOTIONAL AUDIO STREAM", isrc: "AflxfywngxArJDbFA", asset_name: "JlYllyLaKlgaWMA", party_name: "ZMAGDgYAobBgraKgkiQ", label_name: "PAPER RECORDS", units: "1", amount: "0.044865", per_unit_rate: "0.044865", currency: "AED"},
+        {metric_date: "2020-02-01", source: "SPOTIFY", territory: "AE", metric_type: "SUBSCRIPTION AUDIO STREAM", isrc: "YuJVbzRLWXFIwsUKpNOg", asset_name: "tONGzSrarYCIJInpbyw", party_name: "ZMAGDgYAobBgraKgkiQ", label_name: "PAPER RECORDS", units: "11", amount: "0.028289", per_unit_rate: "0.044865", currency: "USD"},
+        {metric_date: "2020-02-01", source: "YOUTUBE", territory: "AE", metric_type: "PROMOTIONAL AUDIO STREAM", isrc: "XNXzmsaytXQOdHUSJcA", asset_name: "bkqqClplSpOGtg", party_name: "ZMAGDgYAobBgraKgkiQ", label_name: "PAPER RECORDS", units: "14", amount: "0.028289", per_unit_rate: "0.044865", currency: "USD"},
+      ]
     }
   }
 };
