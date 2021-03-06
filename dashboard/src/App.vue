@@ -10,19 +10,19 @@
         </AppButton>
       </template>
     </AppLayout>
-    <AppUserList>
+    <Table>
       <template #userlist="{list, count}">
         <pre>
           {{ count }}
           {{ list }}
         </pre>
       </template>
-    </AppUserList>
+    </Table>
   </div>
 </template>
 
 <script>
-import AppUserList from './components/AppUserList.vue';
+import Table from './components/Table.vue';
 import AppLayout from './components/AppLayout.vue';
 import HelloWorld from './components/HelloWorld.vue';
 import AppButton from './components/AppButton.vue';
@@ -35,7 +35,7 @@ export default {
     AppButton,
     Icon,
     AppLayout,
-    AppUserList
+    Table
   },
   methods: {
     log() {
