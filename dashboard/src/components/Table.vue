@@ -4,18 +4,18 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Date</th>
-            <th scope="col">Source</th>
-            <th scope="col">Territory</th>
-            <th scope="col">Type</th>
-            <th scope="col">Code</th>
-            <th scope="col">Song</th>
-            <th scope="col">Artist</th>
-            <th scope="col">Label</th>
-            <th scope="col">Count</th>
-            <th scope="col">Revenue</th>
-            <th scope="col">Rate</th>
-            <th scope="col">Currency</th>
+            <th scope="col" v-on:click="sort('metric_date')">Date</th>
+            <th scope="col" v-on:click="sort('source')">Source</th>
+            <th scope="col" v-on:click="sort('territory')">Territory</th>
+            <th scope="col" v-on:click="sort('metric_type')">Type</th>
+            <th scope="col" v-on:click="sort('isrc')">Code</th>
+            <th scope="col" v-on:click="sort('asset_name')">Song</th>
+            <th scope="col" v-on:click="sort('party_name')">Artist</th>
+            <th scope="col" v-on:click="sort('label_name')">Label</th>
+            <th scope="col" v-on:click="sort('units')">Count</th>
+            <th scope="col" v-on:click="sort('amount')">Revenue</th>
+            <th scope="col" v-on:click="sort('per_unit_rate')">Rate</th>
+            <th scope="col" v-on:click="sort('currency')">Currency</th>
           </tr>
         </thead>
         <tbody>
@@ -36,7 +36,6 @@
           </tr>
         </tbody>
       </table>
-      <button v-on:click="sort()">Sort by Source</button>
   </section>
 </template>
 
@@ -56,13 +55,13 @@ export default {
     getCount() {
       return count++;
     },
-    sort() {
+    sort(attribute) {
       count = 1;
 
       function compare(a, b) {
-        if (a.source < b.source) {
+        if (a[attribute] < b[attribute]) {
           return -1;
-        } else if (a.source > b.source) {
+        } else if (a[attribute] > b[attribute]) {
           return 1;
         } else {
           return 0;
