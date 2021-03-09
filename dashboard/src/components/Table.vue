@@ -102,13 +102,44 @@ export default {
         }
       }
 
-      if (this.lastSort === attribute) { // If user clicks on same header twice, sort by descending order
-        this.items.sort(compareDescending);
-        this.lastSort = "";
-      } else { // Sort by ascending order
-        this.items.sort(compareAscending);
-        this.lastSort = attribute;
+      function compareAscendingNum(a, b) {
+        if (parseInt(a[attribute]) < parseInt(b[attribute])) {
+          return -1;
+        } else if (parseInt(a[attribute]) > parseInt(b[attribute])) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
+
+      function compareDescendingNum(a, b) {
+        if (parseInt(a[attribute]) > parseInt(b[attribute])) {
+          return -1;
+        } else if (parseInt(a[attribute]) < parseInt(b[attribute])) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+
+      if (attribute !== 'metrc_date' && attribute !== 'units' && attribute !== 'amount' && attribute !== 'per_unit_rate') {
+        if (this.lastSort === attribute) { // If user clicks on same header twice, sort by descending order
+          this.items.sort(compareDescending);
+          this.lastSort = "";
+        } else { // Sort by ascending order
+          this.items.sort(compareAscending);
+          this.lastSort = attribute;
+        }
+      } else {
+        if (this.lastSort === attribute) { // If user clicks on same header twice, sort by descending order
+          this.items.sort(compareDescendingNum);
+          this.lastSort = "";
+        } else { // Sort by ascending order
+          this.items.sort(compareAscendingNum);
+          this.lastSort = attribute;
+        }
+      }
+
       this.sortedItems = this.items;
       return this.items;
     },
