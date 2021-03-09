@@ -58,7 +58,7 @@ export default {
         {metric_date: "2020-01-01", source: "APPLE MUSIC", territory: "AE", metric_type: "SUBSCRIPTION AUDIO STREAM", isrc: "YuJbzRLWXFIreUKpNOg", asset_name: "tONGzSrarYCIJInpbyw", party_name: "ZMAGDgYAobBgraKgkiQ", label_name: "PAPER RECORDS", units: "11", amount: "0.028289", per_unit_rate: "0.044865", currency: "USD"},
         {metric_date: "2020-03-01", source: "YOUTUBE", territory: "AE", metric_type: "PROMOTIONAL AUDIO STREAM", isrc: "XNXzmsaytXQqUSJcA", asset_name: "bkqqClplSpOGtg", party_name: "ZMAGDgYAobBgraKgkiQ", label_name: "PAPER RECORDS", units: "14", amount: "0.028289", per_unit_rate: "0.044865", currency: "USD"},
       ],
-      pageSize: 4,
+      pageSize: 9,
       currentPage: 1,
       count: 1,
       lastSort: ""
@@ -131,8 +131,27 @@ export default {
       }
     },
     async mounted() {
-      const data = await d3.csv('../paper_records_test_data.csv');
-      console.log(data);
+      d3.dsv(";", "../paper_records_test_data.csv", function(d) {
+        return {
+          metric_date: d.metric_date,
+          source: d.source,
+          territory: d.territory,
+          metric_type: d.metric_type,
+          isrc: d.isrc,
+          asset_name: d.asset_name,
+          party_name: d.party_name,
+          label_name: d.label_name,
+          units: d.units,
+          amount: d.amount,
+          per_unit_rate: d.per_unit_rate,
+          currency: d.currency
+        };
+      }).then((data) => {
+        console.log(data);
+        console.log("Here");
+        this.items = data;
+      });
+      console.log("here2");
     }
   }
 };
