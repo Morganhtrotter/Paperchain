@@ -74,7 +74,7 @@ export default {
         });
       },
 
-      set: function() {
+      set: function() { // Explicity define as setter to rid "Computed property was assigned but has no setter" warning
         return this.items.filter((row, index) => {
           let start = (this.currentPage - 1) * this.pageSize;
           let end = this.currentPage * this.pageSize;
