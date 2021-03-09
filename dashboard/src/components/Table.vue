@@ -19,7 +19,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in items" :key="item.isrc">
+          <tr v-for="item in sortedItems" :key="item.isrc">
             <th scope="row">{{ getCount() }}</th>
             <td>{{ item.metric_date}}</td>
             <td>{{ item.source }}</td>
@@ -36,13 +36,14 @@
           </tr>
         </tbody>
       </table>
+      <button v-on:click="prevPage()">Previous Page</button>
+      <button v-on:click="nextPage()">Next Page</button>
   </section>
 </template>
 
 <script>
-var count = 1;
-var lastSort = "";
-//var sameSort = false;
+//var startIndex = 0;
+//var endIndex = 3;
 export default {
   data() {
     return {
@@ -56,15 +57,30 @@ export default {
         {metric_date: "2020-02-01", source: "SPOTIFY", territory: "AE", metric_type: "PROMOTIONAL AUDIO STREAM", isrc: "Af11lxfywngxArJDbFA", asset_name: "JlYllyLaKlgaWMA", party_name: "ZMAGDgYAobBgraKgkiQ", label_name: "PAPER RECORDS", units: "1", amount: "0.044865", per_unit_rate: "0.044865", currency: "AED"},
         {metric_date: "2020-01-01", source: "APPLE MUSIC", territory: "AE", metric_type: "SUBSCRIPTION AUDIO STREAM", isrc: "YuJbzRLWXFIreUKpNOg", asset_name: "tONGzSrarYCIJInpbyw", party_name: "ZMAGDgYAobBgraKgkiQ", label_name: "PAPER RECORDS", units: "11", amount: "0.028289", per_unit_rate: "0.044865", currency: "USD"},
         {metric_date: "2020-03-01", source: "YOUTUBE", territory: "AE", metric_type: "PROMOTIONAL AUDIO STREAM", isrc: "XNXzmsaytXQqUSJcA", asset_name: "bkqqClplSpOGtg", party_name: "ZMAGDgYAobBgraKgkiQ", label_name: "PAPER RECORDS", units: "14", amount: "0.028289", per_unit_rate: "0.044865", currency: "USD"},
-      ]
+      ],
+      pageSize: 3,
+      currentPage: 1,
+      count: 1,
+      lastSort: ""
+    }
+  },
+  computed: {
+    sortedItems:function() {
+      return this.items.filter((row, index) => {
+        let start = (this.currentPage - 1) * this.pageSize;
+        let end = this.currentPage * this.pageSize;
+        if (index >= start && index < end) {
+          return true;
+        }
+      });
     }
   },
   methods: {
     getCount() {
-      return count++;
+      return this.count++;
     },
     sort(attribute) {
-      count = 1;
+      this.count = 1;
       function compareAscending(a, b) {
         if (a[attribute].toLowerCase() < b[attribute].toLowerCase()) {
           return -1;
@@ -85,14 +101,25 @@ export default {
         }
       }
 
-      if (lastSort === attribute) {
+      if (this.lastSort === attribute) { // If user clicks on same header twice, sort by descending order
         this.items.sort(compareDescending);
-        lastSort = "";
-      } else {
+        this.lastSort = "";
+      } else { // Sort by ascending order
         this.items.sort(compareAscending);
-        lastSort = attribute;
+        this.lastSort = attribute;
       }
+      this.sortedItems = this.items;
       return this.items;
+    },
+    nextPage() {
+      if ((this.currentPage * this.pageSize) < this.items.length) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
     }
   }
 };
