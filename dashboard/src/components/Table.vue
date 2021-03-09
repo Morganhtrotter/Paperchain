@@ -36,10 +36,12 @@
       </table>
       <button id="prev" v-on:click="prevPage()">Previous Page</button>
       <button v-on:click="nextPage()">Next Page</button>
+      <button v-on:click="mounted()">Load CSV</button>
   </section>
 </template>
 
 <script>
+import * as d3 from "d3";
 //var startIndex = 0;
 //var endIndex = 3;
 export default {
@@ -127,6 +129,10 @@ export default {
       if (this.currentPage > 1) {
         this.currentPage--;
       }
+    },
+    async mounted() {
+      const data = await d3.csv('../paper_records_test_data.csv');
+      console.log(data);
     }
   }
 };
