@@ -34,7 +34,7 @@
           </tr>
         </tbody>
       </table>
-      <button v-on:click="prevPage()">Previous Page</button>
+      <button id="prev" v-on:click="prevPage()">Previous Page</button>
       <button v-on:click="nextPage()">Next Page</button>
   </section>
 </template>
