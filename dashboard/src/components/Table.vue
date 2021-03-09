@@ -3,7 +3,6 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col" v-on:click="sort('metric_date')">Date</th>
             <th scope="col" v-on:click="sort('source')">Source</th>
             <th scope="col" v-on:click="sort('territory')">Territory</th>
@@ -20,7 +19,6 @@
         </thead>
         <tbody>
           <tr v-for="item in sortedItems" :key="item.isrc">
-            <th scope="row">{{ getCount() }}</th>
             <td>{{ item.metric_date}}</td>
             <td>{{ item.source }}</td>
             <td>{{ item.territory }}</td>
@@ -65,20 +63,29 @@ export default {
     }
   },
   computed: {
-    sortedItems:function() {
-      return this.items.filter((row, index) => {
-        let start = (this.currentPage - 1) * this.pageSize;
-        let end = this.currentPage * this.pageSize;
-        if (index >= start && index < end) {
-          return true;
-        }
-      });
+    sortedItems: {
+      get: function() {
+        return this.items.filter((row, index) => {
+          let start = (this.currentPage - 1) * this.pageSize;
+          let end = this.currentPage * this.pageSize;
+          if (index >= start && index < end) {
+            return true;
+          }
+        });
+      },
+
+      set: function() {
+        return this.items.filter((row, index) => {
+          let start = (this.currentPage - 1) * this.pageSize;
+          let end = this.currentPage * this.pageSize;
+          if (index >= start && index < end) {
+            return true;
+          }
+        });
+      }
     }
   },
   methods: {
-    getCount() {
-      return this.count++;
-    },
     sort(attribute) {
       this.count = 1;
       function compareAscending(a, b) {
