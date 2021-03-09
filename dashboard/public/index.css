@@ -29,7 +29,7 @@ table {
 body {
 	margin: 0px;
 	font-family: 'Roboto', sans-serif;
-	background-color: var(--secondary);
+	background-image: url("background.png");
 }
 
 button {
@@ -66,4 +66,5 @@ h1 {
 	font-family: 'Shippori', sans-serif;
 	font-size: 42px;
 	color: var(--quarternary);
+	opacity: 0.7;
 }
