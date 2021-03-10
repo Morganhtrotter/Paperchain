@@ -1,6 +1,6 @@
 <template>
   <section>
-      <input v-if="preLoad" v-model="csvPath" id="csvPath" placeholder="/path">
+      <input v-if="preLoad" v-model="csvPath" id="csvPath" placeholder="path from ./src/components">
       <button id="loadCSV" v-if="preLoad" v-on:click="mounted()">Load CSV</button>
       <div v-else>
         <table class="table">
@@ -46,8 +46,7 @@
 
 <script>
 import * as d3 from "d3";
-//var startIndex = 0;
-//var endIndex = 3;
+
 export default {
   data() {
     return {
@@ -144,7 +143,6 @@ export default {
           this.lastSort = attribute;
         }
       }
-
       this.sortedItems = this.items;
       return this.items;
     },
@@ -193,6 +191,7 @@ export default {
             googleTotalRev += parseFloat(d.amount);
           }
           var unique = true;
+          // For loop to find all the unique sources in data set
           for (var i = 0; i < sourceArray.length; i++) {
             if (d.source === sourceArray[i]) {
               unique = false;
@@ -204,10 +203,12 @@ export default {
           }
         });
 
+        // Variables for bar chart
         var width = 500;
         var height = 250;
         var margin = {top: 20, right: 20, bottom: 70, left: 40}
 
+        // Main svg for bar chart
         var svg = d3.select("body").append("svg")
             .attr("width", width)
             .attr("height", height)
